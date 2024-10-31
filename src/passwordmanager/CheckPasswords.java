@@ -1,6 +1,5 @@
 package passwordmanager;
 
-//Import Statements
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -139,7 +138,7 @@ public class CheckPasswords extends javax.swing.JFrame {
 	                 accountSet.add(password);
 	             }
 
-	             if (accountSet.size() < passwordList.getLength()) { // If no duplicates they will be equal
+	             if (accountSet.size() < passwordList.getLength()) {
 	                 updates.append(
 	                         "You are re-using passwords! Try to use strong and unique passwords for each of your accounts.\n--");
 	                 updates.setCaretPosition(updates.getDocument().getLength());

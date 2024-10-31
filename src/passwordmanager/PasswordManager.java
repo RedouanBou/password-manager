@@ -65,11 +65,9 @@ public class PasswordManager extends JFrame {
         
         passwordField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // Retrieve entered password
                 char[] password = passwordField.getPassword();
                 String passwordString = new String(password);
 
-                // Get master password
                 try {
                     Path filePath = Path.of(masterPasswordFile);
                     String content = Files.readString(filePath);

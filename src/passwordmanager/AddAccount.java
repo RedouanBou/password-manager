@@ -1,6 +1,5 @@
 package passwordmanager;
 
-//Import Statements
 import java.awt.Color;
 import java.io.File;
 import java.time.LocalDate;
@@ -17,10 +16,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-/**
-* Class that is called when user clicks the 'Add Account' button in the
-* Password Manager's menu.
-*/
 
 public class AddAccount extends javax.swing.JFrame {
 
@@ -57,13 +52,11 @@ public class AddAccount extends javax.swing.JFrame {
 
      public AddAccount(String key) {
 
-             // Verify correct master password
              if (!key.equals(PasswordManager.masterPassword)) {
                      System.out.println("Proper Authentication Not Provided!");
                      return;
              }
 
-             // Initialize the JFrame
              setTitle("Add Account");
              setDefaultCloseOperation(DISPOSE_ON_CLOSE);
              setLayout(null);
@@ -74,11 +67,9 @@ public class AddAccount extends javax.swing.JFrame {
              setLocationRelativeTo(null);
      }
 
-     // Calculate password strength
      private int CheckStrength(String userPassword) {
              int passwordScore = 0;
 
-             // +2 points for each character
              for (int p = 0; p < userPassword.length(); p++) {
                      if (passwordScore > 48) { // cap at 48 points
                      } else {
@@ -86,38 +77,32 @@ public class AddAccount extends javax.swing.JFrame {
                      }
              }
 
-             // +10 points for three+ digits, +2 points for one
              if (userPassword.matches(".*[0-9]{3}.*")) {
                      passwordScore += 10;
              } else if (userPassword.matches(".*[0-9].*")) {
                      passwordScore += 2;
              }
 
-             // +10 points for three+ lowercase letters, +2 points for one
              if (userPassword.matches(".*[a-z]{3}.*")) {
                      passwordScore += 10;
              } else if (userPassword.matches(".*[a-z].*")) {
                      passwordScore += 2;
              }
 
-             // +10 points for three+ uppercase letters, +2 points for one
              if (userPassword.matches(".*[A-Z]{3}.*")) {
                      passwordScore += 10;
              } else if (userPassword.matches(".*[A-Z].*")) {
                      passwordScore += 2;
              }
 
-             // +20 points for two+ symbols, +2 points for one
              if (userPassword.matches(".*[~!@#$%^&*()_-]{2}.*")) {
                      passwordScore += 20;
              } else if (userPassword.matches(".*[~!@#$%^&*()_-].*")) {
                      passwordScore += 2;
              }
 
-             // Update the password strength bar
              scoreBar.setValue(passwordScore);
 
-             // Change the color of the bar depending on the score
              if (passwordScore >= 75) {
                      scoreBar.setForeground(Color.GREEN);
              } else if (passwordScore >= 45) {
@@ -130,7 +115,6 @@ public class AddAccount extends javax.swing.JFrame {
      }
 
      private void initComponents() {
-             // Initialize GUI components
              addAccountTitle = new javax.swing.JLabel();
              accountNameField = new javax.swing.JTextField();
              accountNameLabel = new javax.swing.JLabel();
@@ -161,7 +145,6 @@ public class AddAccount extends javax.swing.JFrame {
              notesOptionalLabel = new javax.swing.JLabel();
              scoreBar = new javax.swing.JProgressBar();
 
-             // Set component properties and add event listeners
              scoreBar.setUI(new MetalProgressBarUI());
              scoreBar.setMinimum(0);
              scoreBar.setMaximum(100);
@@ -263,7 +246,6 @@ public class AddAccount extends javax.swing.JFrame {
 
              submitButton.setText("Add Account");
 
-             // Set component layout and add to JFrame (made using Apache NetBeans IDE 16)
              javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
              getContentPane().setLayout(layout);
              layout.setHorizontalGroup(
@@ -467,20 +449,18 @@ public class AddAccount extends javax.swing.JFrame {
              pack();
      }
 
-     // Generate password using the account name
      private void generateButtonClicked(java.awt.event.MouseEvent evt) {
              String generatedpw = GeneratePW.Generate(accountNameField.getText());
-             // If generated password is empty, return
              if (generatedpw.length() == 0) {
                      return;
              }
-             // Set password fields to generated password and check its strength
+
              confirmPasswordField.setText(generatedpw);
              passwordField.setText(generatedpw);
              CheckStrength(generatedpw);
 
              generateButton.setText("Generated!");
-             // Set timer to change generate button text back to "Generate" after 1.5 seconds
+
              new java.util.Timer().schedule(
                              new java.util.TimerTask() {
                                      @Override
@@ -492,18 +472,18 @@ public class AddAccount extends javax.swing.JFrame {
      }
 
      private void submitButtonClicked(java.awt.event.MouseEvent evt) {
-             // Check if account name is already in use
+
              try {
-                     // Load the XML database file
+
                      File xmlFile = new File(PasswordManager.databaseFile);
                      Document database = DocumentBuilderFactory.newInstance()
                                      .newDocumentBuilder().parse(xmlFile);
 
-                     // Search for accounts with the same name
+
                      NodeList accountList = database.getElementsByTagName("account");
                      for (int i = 0; i < accountList.getLength(); i++) {
                              Element account = (Element) accountList.item(i);
-                             // Show error message if account name already exists
+
                              if (account.getAttribute("name").equals(accountNameField.getText())) {
                                      JOptionPane.showOptionDialog(null,
                                                      "An account with that name already exists. Please use a different name/title.",
@@ -519,14 +499,13 @@ public class AddAccount extends javax.swing.JFrame {
                      e.printStackTrace();
              }
 
-             // Check if password and confirm password match
+
              if ((String.valueOf(passwordField.getPassword()))
                              .equals(String.valueOf(confirmPasswordField.getPassword()))) {
-                     // Check if account name is not empty
+
                      if (accountNameField.getText().length() > 0) {
-                             // Check if confirm password field is not empty
+
                              if ((String.valueOf(confirmPasswordField.getPassword())).length() == 0) {
-                                     // Show error message if confirm password field is empty
                                      JOptionPane.showOptionDialog(null,
                                                      "Password field may not be left blank.", "Error Adding Account",
                                                      JOptionPane.DEFAULT_OPTION,
@@ -534,8 +513,6 @@ public class AddAccount extends javax.swing.JFrame {
                                                      null);
 
                              } else {
-                                     // Create a new account with the entered information
-                                     // Get the information
                                      String newAccountTitle = accountNameField.getText();
                                      String newAccountURL = urlField.getText();
                                      String newAccountEmail = emailField.getText();
@@ -559,80 +536,65 @@ public class AddAccount extends javax.swing.JFrame {
                                                      .plus(Period.ofMonths(Integer.parseInt(newAccountRenewal)));
 
                                      try {
-                                             // Load the database XML file
                                              DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                                              DocumentBuilder builder = factory.newDocumentBuilder();
                                              Document document = builder.parse(new File(
                                                              PasswordManager.databaseFile));
 
-                                             // Create the account element
                                              Element rootElement = document.getDocumentElement();
                                              Element accountElement = document.createElement("account");
                                              accountElement.setAttribute("name", newAccountTitle);
                                              rootElement.appendChild(accountElement);
 
-                                             // Create the id element with a random ID
                                              Element idElement = document.createElement("id");
                                              idElement.setAttribute("id",
                                                              Integer.toString((int) Math
                                                                              .floor(Math.random() * (10000000))));
                                              accountElement.appendChild(idElement);
 
-                                             // Create the URL element
                                              Element urlElement = document.createElement("url");
                                              urlElement.setAttribute("link", AES.encrypt(newAccountURL));
                                              accountElement.appendChild(urlElement);
 
-                                             // Create the email element
                                              Element emailElement = document.createElement("email");
                                              emailElement.setAttribute("address", AES.encrypt(newAccountEmail));
                                              accountElement.appendChild(emailElement);
 
-                                             // Create the user element
                                              Element userElement = document.createElement("user");
                                              userElement.setAttribute("user", AES.encrypt(newAccountUsername));
                                              accountElement.appendChild(userElement);
 
-                                             // Create the pass element
                                              Element passElement = document.createElement("pass");
                                              passElement.setAttribute("pass", AES.encrypt(newAccountPassword));
                                              accountElement.appendChild(passElement);
 
-                                             // Create the renewal element
                                              Element renewalElement = document.createElement("renewal");
                                              renewalElement.setAttribute("period", newAccountRenewal);
                                              accountElement.appendChild(renewalElement);
 
-                                             // Create the note element
                                              Element noteElement = document.createElement("note");
                                              noteElement.setAttribute("note", AES.encrypt(newAccountNote));
                                              accountElement.appendChild(noteElement);
 
-                                             // Create the date created element
                                              Element creationElement = document.createElement("creation");
                                              creationElement.setAttribute("date", dateCreated.toString());
                                              accountElement.appendChild(creationElement);
 
-                                             // Create the date renewal element
                                              Element dateElement = document.createElement("date");
                                              dateElement.setAttribute("renewal", RenewalDate.toString());
                                              accountElement.appendChild(dateElement);
 
-                                             // Create the usecount element
                                              Element usecountElement = document.createElement("usecount");
                                              usecountElement.setAttribute("count", "0");
                                              accountElement.appendChild(usecountElement);
 
-                                             // Get XML database
                                              DOMSource source = new DOMSource(document);
                                              StreamResult result = new StreamResult(
                                                              new File(PasswordManager.databaseFile));
 
-                                             // Update XML database
                                              TransformerFactory.newInstance().newTransformer().transform(source,
                                                              result);
 
-                                             // Close
                                              dispose();
 
                                      } catch (Exception e) {
@@ -640,14 +602,12 @@ public class AddAccount extends javax.swing.JFrame {
                                      }
                              }
                      } else {
-                             // Show an error message that an account name is required
                              JOptionPane.showOptionDialog(null,
                                              "An account name/title is required.", "Error Adding Account",
                                              JOptionPane.DEFAULT_OPTION,
                                              JOptionPane.ERROR_MESSAGE, null, new String[] { "OK" }, null);
                      }
              } else {
-                     // Show an error message that the passwords dont match
                      JOptionPane.showOptionDialog(null,
                                      "The entered passwords do not match! Please try again.", "Error Adding Account",
                                      JOptionPane.DEFAULT_OPTION,
@@ -655,44 +615,31 @@ public class AddAccount extends javax.swing.JFrame {
              }
      }
 
-     // checks the strength of the password when updated
      private void passwordFieldKeyReleased(java.awt.event.KeyEvent evt) {
              CheckStrength(String.valueOf(passwordField.getPassword()));
      }
 
-     // Deselect all radio buttons but "3 months"
      private void renewal3MonthsButtonSelected(java.awt.event.ActionEvent evt) {
              deselectAllRenewalButtonsExcept(renewal3MonthsButton);
      }
 
-     // Deselect all radio buttons but "6 months"
      private void renewal6MonthsButtonSelected(java.awt.event.ActionEvent evt) {
              deselectAllRenewalButtonsExcept(renewal6MonthsButton);
      }
 
-     // Deselect all radio buttons but "9 months"
      private void renewal9MonthsButtonSelected(java.awt.event.ActionEvent evt) {
              deselectAllRenewalButtonsExcept(renewal9MonthsButton);
      }
 
-     // Deselect all radio buttons but "12 months"
      private void renewal12MonthsButtonSelected(java.awt.event.ActionEvent evt) {
              deselectAllRenewalButtonsExcept(renewal12MonthsButton);
      }
 
-     /**
-      * Unselect all renewal period buttons except the one specified
-      *
-      * @param selectedButton - the selected renewal period button
-      */
      private void deselectAllRenewalButtonsExcept(javax.swing.JRadioButton selectedButton) {
-             // Array of all the renewal period buttons
              javax.swing.JRadioButton[] renewalButtons = { renewal3MonthsButton, renewal6MonthsButton,
                              renewal9MonthsButton, renewal12MonthsButton };
 
-             // Loop through array
              for (javax.swing.JRadioButton renewalButton : renewalButtons) {
-                     // If the button is not the selected button, unselect it
                      if (renewalButton != selectedButton) {
                              renewalButton.setSelected(false);
                      }

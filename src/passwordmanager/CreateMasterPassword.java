@@ -19,12 +19,7 @@ public class CreateMasterPassword extends JFrame {
     private javax.swing.JPasswordField newPasswordField;
     private javax.swing.JProgressBar scoreBar;
 
-    /**
-     * Constructs an UpdatePassword jFrame.
-     */
     public CreateMasterPassword() {
-
-        // Initialize the JFrame
         setTitle("Create Master Password");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
@@ -36,7 +31,6 @@ public class CreateMasterPassword extends JFrame {
     }
 
     private void initComponents() {
-        // Initialize GUI components
         scoreBar = new javax.swing.JProgressBar();
         newLabel = new javax.swing.JLabel();
         confirmLabel = new javax.swing.JLabel();
@@ -47,7 +41,6 @@ public class CreateMasterPassword extends JFrame {
         confirmPasswordField = new javax.swing.JPasswordField();
         newPasswordField = new javax.swing.JPasswordField();
 
-        // Set component properties and add event listeners
         scoreBar.setUI(new MetalProgressBarUI());
         scoreBar.setMinimum(0);
         scoreBar.setMaximum(100);
@@ -76,7 +69,6 @@ public class CreateMasterPassword extends JFrame {
             }
         });
 
-        // Set component layout and add to JFrame (made using Apache NetBeans IDE 16)
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -219,7 +211,6 @@ public class CreateMasterPassword extends JFrame {
         }
     }
 
-    // Call the CheckStrength method to update the password strength indicator
     private void newPasswordFieldKeyReleased(java.awt.event.KeyEvent evt) {
         CheckStrength(String.valueOf(newPasswordField.getPassword()));
     }
